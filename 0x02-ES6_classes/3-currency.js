@@ -1,5 +1,3 @@
-//Currency class represents a currency with code and name
- 
 export default class Currency {
   constructor(code, name) {
     this._code = code;
