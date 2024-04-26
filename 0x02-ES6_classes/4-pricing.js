@@ -1,5 +1,5 @@
 // Pricing class represents a pricing with amount and currency
-import Currency from './3-currency.js';
+import Currency from './3-currency';
 
 export default class Pricing {
   constructor(amount, currency) {
