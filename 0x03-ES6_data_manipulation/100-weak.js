@@ -4,7 +4,7 @@ export { weakMap };
 
 export function queryAPI(endpoint) {
   let count = weakMap.get(endpoint) || 0;
-  count++;
+  count+= 1;
 
   // Update the count in the weakMap
   weakMap.set(endpoint, count);
