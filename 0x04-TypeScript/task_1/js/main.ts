@@ -1,50 +1,83 @@
-// Define Teacher interface
+// Teacher Interface
 interface Teacher {
-  readonly firstName: string;
-  readonly lastName: string;
+  firstName: string;
+  lastName: string;
   fullTimeEmployee: boolean;
   yearsOfExperience?: number;
   location: string;
   [key: string]: any;
 }
 
-// Create a function to initialize Teacher objects
-const createTeacher = (data: Teacher): Teacher => {
-  const { firstName, lastName, fullTimeEmployee, location, ...rest } = data;
-  return {
-    firstName,
-    lastName,
-    fullTimeEmployee,
-    location,
-    ...rest
-  };
+// Create a Teacher object
+const teacher3: Teacher = {
+  firstName: 'John',
+  fullTimeEmployee: false,
+  lastName: 'Doe',
+  location: 'London',
+  contract: false,
 };
 
-// Create Teacher objects
-const teacher1: Teacher = createTeacher({
+console.log(teacher3);
+
+//  Extending the Teacher class
+interface Directors extends Teacher {
+  numberOfReports: number;
+}
+
+// Create a Directors object
+const director1: Directors = {
   firstName: 'John',
   lastName: 'Doe',
+  location: 'London',
   fullTimeEmployee: true,
-  location: 'New York'
-});
+  numberOfReports: 17,
+};
 
-const teacher2: Teacher = createTeacher({
-  firstName: 'Jane',
-  lastName: 'Smith',
-  fullTimeEmployee: false,
-  yearsOfExperience: 3,
-  location: 'Los Angeles'
-});
+console.log(director1);
 
-const teacher3: Teacher = createTeacher({
-  firstName: 'Alice',
-  lastName: 'Johnson',
-  fullTimeEmployee: true,
-  location: 'Chicago',
-  contract: true
-});
+//  Printing teachers
+interface printTeacherFunction {
+  (firstName: string, lastName: string): string;
+}
 
-// Print Teacher objects
-console.log(teacher1);
-console.log(teacher2);
-console.log(teacher3);
+// Define the printTeacher function
+const printTeacher: printTeacherFunction = (firstName: string, lastName: string): string => {
+  return `${firstName.charAt(0)}. ${lastName}`;
+}
+
+// Test the printTeacher function
+console.log(printTeacher("John", "Doe"));
+
+// Writing a class
+interface StudentClass {
+  new(firstName: string, lastName: string): StudentClassInstance;
+}
+
+interface StudentClassInstance {
+  workOnHomework(): string;
+  displayName(): string;
+}
+
+// Define the StudentClass class
+class StudentClassImpl implements StudentClassInstance {
+  private firstName: string;
+  private lastName: string;
+
+  constructor(firstName: string, lastName: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
+
+  workOnHomework(): string {
+    return 'Currently working';
+  }
+
+  displayName(): string {
+    return this.firstName;
+  }
+}
+
+// Test the StudentClass
+const student = new StudentClassImpl("Alice", "Smith");
+console.log(student.workOnHomework());
+console.log(student.displayName());
