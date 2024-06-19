@@ -5,9 +5,8 @@ process.stdin.setEncoding('utf8');
 process.stdin.on('readable', () => {
     const name = process.stdin.read();
 
-        if (name.length > 0) {
+        if (name) {
             process.stdout.write(`Your name is: ${name}\n`);
-            process.exit();
         }
 });
 
