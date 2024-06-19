@@ -1,44 +1,41 @@
 const fs = require('fs');
 
-function countStudents (path) {
-  try {
-    const data = fs.readFileSync(path, 'utf8');
+/**
+ * Counts the students in a CSV data file.
+ * @param {String} dataPath The path to the CSV data file.
+ */
+const countStudents = (dataPath) => {
+    try {
+        if (!fs.existsSync(dataPath)) {
+            throw new Error('Cannot load the database');
+        }
 
-    const lines = data.trim().split('\n');
+        const fileContent = fs.readFileSync(dataPath, 'utf8').trim();
+        const lines = fileContent.split('\n').filter(line => line.trim() !== '');
 
-    const students = [];
+        if (lines.length === 0) {
+            throw new Error('No valid data found in the database');
+        }
 
-    lines.forEach(line => {
-      const [firstname, lastname, age, field] = line.trim().split(',');
+        const students = { CS: [], SWE: [] };
 
-      if (firstname && lastname && age && field) {
-        students.push({ firstname, lastname, age, field });
-      }
-    });
+        lines.forEach(line => {
+            const [firstname, lastname, age, field] = line.split(',').map(item => item.trim());
+            if (firstname && lastname && age && field) {
+                if (field === 'CS' || field === 'SWE') {
+                    students[field].push(firstname);
+                }
+            }
+        });
 
-    const numberOfStudents = students.length;
-    console.log(`Number of students: ${numberOfStudents}`);
+        const totalStudents = students.CS.length + students.SWE.length;
+        console.log(`Number of students: ${totalStudents}`);
+        console.log(`Number of students in CS: ${students.CS.length}. List: ${students.CS.join(', ')}`);
+        console.log(`Number of students in SWE: ${students.SWE.length}. List: ${students.SWE.join(', ')}`);
 
-    const countByField = {
-      CS: { count: 0, list: [] },
-      SWE: { count: 0, list: [] }
-    };
-    students.forEach(student => {
-      const { firstname, field } = student;
-      if (field === 'CS') {
-        countByField.CS.count++;
-        countByField.CS.list.push(firstname);
-      } else if (field === 'SWE') {
-        countByField.SWE.count++;
-        countByField.SWE.list.push(firstname);
-      }
-    });
-
-    console.log(`Number of students in CS: ${countByField.CS.count}. List: ${countByField.CS.list.join(', ')}`);
-    console.log(`Number of students in SWE: ${countByField.SWE.count}. List: ${countByField.SWE.list.join(', ')}`);
-  } catch (error) {
-    throw new Error('Cannot load the database');
-  }
-}
+    } catch (error) {
+        console.error(error.message);
+    }
+};
 
 module.exports = countStudents;
