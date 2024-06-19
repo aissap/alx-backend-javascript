@@ -5,7 +5,6 @@ process.stdin.on('data', (data) => {
 
     if (input.length > 0) {
         process.stdout.write(`Your name is: ${input}\n`);
-        process.stdout.write('This important software is now closing\n');
         process.exit();
     }
 });
