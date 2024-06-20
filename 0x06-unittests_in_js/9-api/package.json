@@ -1,0 +1,19 @@
+{
+    "name": "9-api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "api.js",
+    "scripts": {
+      "test": "mocha api.test.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "express": "^4.17.1"
+    },
+    "devDependencies": {
+      "chai": "^5.1.1",
+      "mocha": "^10.4.0",
+      "request": "^2.88.0"
+    }
+}  
