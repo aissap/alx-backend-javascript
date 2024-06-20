@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "chai": "^5.1.1",
     "mocha": "^10.4.0"
   },
   "name": "0x06-unittests_in_js",
