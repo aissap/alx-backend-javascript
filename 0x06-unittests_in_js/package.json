@@ -77,7 +77,7 @@
     "yocto-queue": "^0.1.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha 0-calcul.test.js"
   },
   "author": "",
   "license": "ISC",
