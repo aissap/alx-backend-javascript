@@ -1,25 +1,58 @@
-const { expect } = require('chai');
 const request = require('request');
-const server = require('./api');
+const { expect } = require('chai');
 
-describe('Integration Testing for /cart/:id endpoint', () => {
-  after(() => {
-    server.close();
-  });
-  it('Returns correct payment methods when :id is a number', (done) => {
-    const id = 123;
-    request(`http://localhost:7865/cart/${id}`, (error, response, body) => {
+describe('Index page', () => {
+  const url = 'http://localhost:7865';
+
+  it('Correct status code?', (done) => {
+    request(url, (error, response, body) => {
       expect(response.statusCode).to.equal(200);
-      expect(body).to.equal(`Payment methods for cart ${id}`);
       done();
     });
   });
 
-  it('Returns 404 status when :id is not a number', (done) => {
-    const id = 'hello';
-    request(`http://localhost:7865/cart/${id}`, (error, response, body) => {
+  it('Correct result?', (done) => {
+    request(url, (error, response, body) => {
+      expect(body).to.equal('Welcome to the payment system');
+      done();
+    });
+  });
+
+  it('Other?', (done) => {
+    request(url, (error, response, body) => {
+      expect(response.headers['content-type']).to.include('text/html');
+      done();
+    });
+  });
+});
+
+describe('Cart page', () => {
+  const url = 'http://localhost:7865/cart';
+
+  it('Correct status code when :id is a number?', (done) => {
+    request(`${url}/12`, (error, response, body) => {
+      expect(response.statusCode).to.equal(200);
+      done();
+    });
+  });
+
+  it('Correct result when :id is a number?', (done) => {
+    request(`${url}/12`, (error, response, body) => {
+      expect(body).to.equal('Payment methods for cart 12');
+      done();
+    });
+  });
+
+  it('Correct status code when :id is NOT a number?', (done) => {
+    request(`${url}/hello`, (error, response, body) => {
       expect(response.statusCode).to.equal(404);
-      expect(body).to.equal('Cannot GET /cart/hello');
+      done();
+    });
+  });
+
+  it('Correct result when :id is NOT a number?', (done) => {
+    request(`${url}/hello`, (error, response, body) => {
+      expect(body).to.include('Cannot GET /cart/hello');
       done();
     });
   });
