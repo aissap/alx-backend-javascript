@@ -1,25 +1,27 @@
-const { expect } = require('chai');
 const request = require('request');
-const app = require('./api');
+const { expect } = require('chai');
 
 describe('Index page', () => {
-  let baseUrl = 'http://localhost:7865';
+  const url = 'http://localhost:7865';
 
-  before((done) => {
-    app.on('listening', () => {
+  it('Correct status code?', (done) => {
+    request(url, (error, response, body) => {
+      expect(response.statusCode).to.equal(200);
       done();
     });
   });
 
-  it('Correct status code and result', (done) => {
-    request.get(baseUrl, (error, response, body) => {
-      expect(response.statusCode).to.equal(200);
+  it('Correct result?', (done) => {
+    request(url, (error, response, body) => {
       expect(body).to.equal('Welcome to the payment system');
       done();
     });
   });
 
-  after(() => {
-    app.close();
+  it('Other?', (done) => {
+    request(url, (error, response, body) => {
+      expect(response.headers['content-type']).to.include('text/html');
+      done();
+    });
   });
 });
