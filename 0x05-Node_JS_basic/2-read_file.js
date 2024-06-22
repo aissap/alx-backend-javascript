@@ -1,43 +1,37 @@
 const fs = require('fs');
 
-const countStudents = (dataPath) => {
-  try {
-    if (!fs.existsSync(dataPath)) {
-      throw new Error('Cannot load the database');
-    }
-
-    const fileContent = fs.readFileSync(dataPath, 'utf8');
-    const lines = fileContent.split('\n').filter(line => line.trim() !== '');
-
-    let students = 0;
-    const hashtable = {};
-
-    for (const line of lines) {
-      const columns = line.split(',').map(item => item.trim());
-      const firstname = columns[0];
-      const lastname = columns[1];
-      const age = columns[2];
-      const field = columns[3];
-
-      if (firstname && lastname && age && field) {
-        if (!hashtable[field]) {
-          hashtable[field] = [];
-        }
-        hashtable[field].push(firstname);
-        students++;
-      }
-    }
-
-    console.log(`Number of students: ${students}`);
-    for (const key in hashtable) {
-      if (Object.hasOwnProperty.call(hashtable, key)) {
-        console.log(`Number of students in ${key}: ${hashtable[key].length}. List: ${hashtable[key].join(', ')}`);
-      }
-    }
-
-  } catch (error) {
-    console.error(error.message);
+/**
+ * Counts the students in the CSV data file.
+ */
+function countStudents (path) {
+  if (!fs.existsSync(path)) {
+    throw new Error('Cannot load the database');
   }
-};
+
+  const fileContent = fs.readFileSync(path, 'utf8');
+  const linz = fileContent.split('\n');
+  const hasht = {};
+  let students = -1;
+  for (const l of linz) {
+    if (l.trim() !== '') {
+      const colm = l.split(',');
+      const field = colm[3];
+      const fname = colm[0];
+      if (students >= 0) {
+        if (!Object.hasOwnProperty.call(hasht, field)) {
+          hasht[field] = [];
+        }
+        hasht[field] = [...hasht[field], fname];
+      }
+      students += 1;
+    }
+  }
+  console.log(`Number of students: ${students}`);
+  for (const key in hasht) {
+    if (Object.hasOwnProperty.call(hasht, key)) {
+      console.log(`Number of students in ${key}: ${hasht[key].length}. List: ${hasht[key].join(', ')}`);
+    }
+  }
+}
 
 module.exports = countStudents;
