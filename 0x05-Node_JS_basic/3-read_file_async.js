@@ -3,8 +3,7 @@ const fs = require('fs');
 /**
  * Counts the students in the CSV data file asynchronously.
  * @param {String} dataPath The path to the CSV data file.
- * @returns {Promise} A Promise that resolves with the student
- * count and logs, or rejects with an error.
+ * @returns {Promise} A Promise that resolves when data is processed, or rejects with an error.
  */
 const countStudents = (dataPath) => {
   return new Promise((resolve, reject) => {
@@ -34,7 +33,7 @@ const countStudents = (dataPath) => {
         console.log(`Number of students in CS: ${students.CS.length}. List: ${students.CS.join(', ')}`);
         console.log(`Number of students in SWE: ${students.SWE.length}. List: ${students.SWE.join(', ')}`);
 
-        resolve({ totalStudents, students });
+        resolve();
       }
     });
   });
